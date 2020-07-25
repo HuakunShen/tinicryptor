@@ -17,7 +17,6 @@ using namespace std;
 int main(int argc, const char** argv) {
     argparse::ArgumentParser parser("Tinicryptor Argument Parser");
     parse_arguments(parser, argc, argv);
-    
 
     if (!parser.present("--input")) {
         cout << "no input file\n";
@@ -34,16 +33,9 @@ int main(int argc, const char** argv) {
         while (i < filesize) {
             i++;
             in.read(&buffer, 1);
-            cout << i << '.' << buffer << endl;
             m[buffer]++;
         }
         in.close();
-        for (auto const& pair : m) {
-            //bitset<8> bit(pair.first);
-            cout << "{" << pair.first << ": " << pair.second << "}\n";
-        }
-
-        cout << endl;
         priority_queue<Node*, std::vector<Node*>, heapCmp> q;
         for (auto const& pair : m) {
             q.push(new Node(string(1, pair.first), pair.second));
@@ -53,21 +45,18 @@ int main(int argc, const char** argv) {
             Node *top = q.top();
             q.pop();
             Node *top1 = q.top();
-            //cout << "{" << top.first << ": " << top.second << "}" << endl;
             q.pop();
             Node *p = new Node(top->value + top1->value, top->freq + top1->freq, top, top1);
-            // tree opt
             q.push(p);
         }
-
-        cout << q.top()->value << endl;
-        cout << q.top()->freq << endl;
         map<char, string> lookup_table;
         Node* root = q.top();
         generate_huffman_table(lookup_table, root, "");
         free_nodes(root);
+        cout << endl << "char" << ":\t" << "char in bits" << ":\t" << "code" << endl;
         for (auto& pair : lookup_table) {
-            cout << pair.first << ": " << pair.second << endl;
+            bitset<8> bits(pair.first);
+            cout << pair.first << ":\t" << bits << ":\t" << pair.second << endl;
         }
    
     }
