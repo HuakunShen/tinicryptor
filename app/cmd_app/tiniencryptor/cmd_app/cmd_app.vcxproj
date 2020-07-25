@@ -147,7 +147,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="headers\util.cpp" />
+    <ClCompile Include="src\util.cpp" />
     <ClCompile Include="huffman.cpp" />
     <ClCompile Include="src\cmd_app.cpp" />
   </ItemGroup>
