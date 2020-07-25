@@ -1,9 +1,3 @@
-/**
- * License: Apache 2.0 with LLVM Exception or GPL v3
- *
- * Author: Jesse Laning
- */
-
 #include <iostream>
 #include <iterator>
 #include <sys/stat.h>
@@ -12,12 +6,11 @@
 #include <queue>
 #include <vector>
 #include <bitset>
+#include <argparse/argparse.hpp>
 
-#include "argparse.hpp"
 #include "HuffmanTree.hpp"
 
 
-using namespace argparse;
 using namespace std;
 
 struct heapCmp
@@ -53,47 +46,25 @@ void free_nodes(Node* node) {
 }
 
 int main(int argc, const char* argv[]) {
-    ArgumentParser parser("Tinicryptor", "Tinicryptor Parser");
-    parser.add_argument("-i", "--input", "input file", false);
-    parser.add_argument("-o", "--output", "output file", false);
-    parser.add_argument("--operation", "Either Encode or Decode", false);
-    parser.enable_help();
-    auto err = parser.parse(argc, argv);
-    if (err) {
-        std::cout << err << std::endl;
-        return -1;
+    argparse::ArgumentParser program("Tinicryptor Argument Parser");
+
+    program.add_argument("-i", "--input")
+        .help("Input filename/address");
+
+    try {
+        program.parse_args(argc, argv);
+    }
+    catch (const std::runtime_error& err) {
+        std::cout << err.what() << std::endl;
+        std::cout << program;
+        exit(0);
     }
 
-    if (parser.exists("help")) {
-        parser.print_help();
-        return 0;
-    }
-
-    string input_filename;
-    cout << input_filename << endl;
-    if (parser.exists("input")) {
-        std::cout << "input file: " << parser.get<std::string>("input") << std::endl;
-        input_filename= parser.get<std::string>("input");
-
+    if (!program.present("--input")) {
+        cout << "no input filename\n";
     }
     else {
-        input_filename = "";
-    }
-
-    string output_filename;
-    if (parser.exists("output")) {
-        std::cout << parser.get<std::string>("output") << std::endl;
-        output_filename = parser.get<std::string>("output");
-
-    }
-    else {
-        output_filename = "";
-    }
-    
-    if (input_filename.length() == 0) {
-        cout << "empty input filename\n";
-    }
-    else {
+        string input_filename = program.get<string>("--input");
         std::ifstream in(input_filename, ios::ate | ios::binary);
         int filesize = in.tellg();
         cout << "file size: " << filesize << " bytes" << endl;
