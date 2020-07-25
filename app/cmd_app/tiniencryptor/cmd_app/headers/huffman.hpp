@@ -9,7 +9,7 @@
     @param left: left child node
     @param right: right child node
     @param value: char/byte to be encoded to be shorter, is declared as string because string concatenation is required when generating tree
-*/
+ */
 struct Node {
     std::string value;
     int freq;
@@ -30,10 +30,19 @@ struct Node {
     }
 };
 
+/**
+ * to store in metadata as lookup table
+ * @param chr: char in ascci
+ * @param code: huffman encoded code
+ */
+struct table_row {
+    char chr;
+    int code;
+};
 
 /**
-    struct for heap comparing function
-*/
+ * struct for heap comparing function
+ */
 struct heapCmp
 {
     bool operator()(Node* a, Node* b)

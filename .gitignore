@@ -360,3 +360,7 @@ MigrationBackup/
 
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
+
+app/cmd_app/.DS_Store
+
+app/cmd_app/tiniencryptor/.DS_Store
