@@ -147,11 +147,12 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="huffman.cpp" />
     <ClCompile Include="src\cmd_app.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="headers\argparse.hpp" />
-    <ClInclude Include="headers\HuffmanTree.hpp" />
+    <ClInclude Include="headers\huffman.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

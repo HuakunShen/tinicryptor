@@ -1,49 +1,15 @@
 #include <iostream>
-#include <iterator>
-#include <sys/stat.h>
 #include <fstream>
-#include <functional>
 #include <queue>
 #include <vector>
+#include<map>
 #include <bitset>
 #include <argparse/argparse.hpp>
 
-#include "HuffmanTree.hpp"
+#include "huffman.hpp"
 
 
 using namespace std;
-
-struct heapCmp
-{
-    bool operator()(Node *a, Node *b)
-    {
-        return a->freq > b->freq;
-    }
-};
-
-void generate_huffman_table(map<char, string>* m, Node *node, string code) {
-    if (!node) return;
-    if (!node->left && !node->right) {
-        if (node->value.length() != 1) {
-            cout << "error: leave's length isn't 1, unexpected\n";
-        }
-        (*m)[node->value.c_str()[0]] = code;
-        return;
-    }
-    if (node->left) {
-        generate_huffman_table(m, node->left, code + "0");
-    }
-    if (node->right) {
-        generate_huffman_table(m, node->right, code + "1");
-    }
-}
-
-void free_nodes(Node* node) {
-    if (!node) return;
-    free_nodes(node->left);
-    free_nodes(node->right);
-    delete node;
-}
 
 int main(int argc, const char* argv[]) {
     argparse::ArgumentParser program("Tinicryptor Argument Parser");
@@ -61,7 +27,7 @@ int main(int argc, const char* argv[]) {
     }
 
     if (!program.present("--input")) {
-        cout << "no input filename\n";
+        cout << "no input file\n";
     }
     else {
         string input_filename = program.get<string>("--input");
@@ -83,8 +49,6 @@ int main(int argc, const char* argv[]) {
             //bitset<8> bit(pair.first);
             cout << "{" << pair.first << ": " << pair.second << "}\n";
         }
-     
-        
 
         cout << endl;
         priority_queue<Node*, std::vector<Node*>, heapCmp> q;
@@ -107,7 +71,7 @@ int main(int argc, const char* argv[]) {
         cout << q.top()->freq << endl;
         map<char, string> lookup_table;
         Node* root = q.top();
-        generate_huffman_table(&lookup_table, root, "");
+        generate_huffman_table(lookup_table, root, "");
         free_nodes(root);
         for (auto& pair : lookup_table) {
             cout << pair.first << ": " << pair.second << endl;
