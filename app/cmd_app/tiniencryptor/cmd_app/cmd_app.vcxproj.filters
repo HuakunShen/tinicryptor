@@ -21,12 +21,18 @@
     <ClCompile Include="huffman.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="headers\util.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="headers\argparse.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="headers\huffman.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="headers\util.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

@@ -7,30 +7,23 @@
 #include <argparse/argparse.hpp>
 
 #include "huffman.hpp"
+#include "util.hpp"
 
 
 using namespace std;
 
-int main(int argc, const char* argv[]) {
-    argparse::ArgumentParser program("Tinicryptor Argument Parser");
 
-    program.add_argument("-i", "--input")
-        .help("Input filename/address");
 
-    try {
-        program.parse_args(argc, argv);
-    }
-    catch (const std::runtime_error& err) {
-        std::cout << err.what() << std::endl;
-        std::cout << program;
-        exit(0);
-    }
+int main(int argc, const char** argv) {
+    argparse::ArgumentParser parser("Tinicryptor Argument Parser");
+    parse_arguments(parser, argc, argv);
+    
 
-    if (!program.present("--input")) {
+    if (!parser.present("--input")) {
         cout << "no input file\n";
     }
     else {
-        string input_filename = program.get<string>("--input");
+        string input_filename = parser.get<string>("--input");
         std::ifstream in(input_filename, ios::ate | ios::binary);
         int filesize = in.tellg();
         cout << "file size: " << filesize << " bytes" << endl;
