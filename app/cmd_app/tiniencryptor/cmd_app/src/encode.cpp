@@ -11,6 +11,28 @@
 
 
 using namespace std;
+
+
+void bitset_2_array(const std::bitset<16>& bits, int32_t n_set_size, char* buf, int32_t& n_bytes)
+{
+    
+    n_bytes = 0;
+    for (int i = 0; i < n_set_size; i += 8)
+    {
+        char ch;
+        for (int j = 0; j < 8; ++j)
+        {
+            if (bits.test(i + j))
+                ch |= (1 << j);
+            else
+                ch &= ~(1 << j);
+        }
+        buf[n_bytes++] = ch;
+    }
+}
+
+
+
 void encode_main(argparse::ArgumentParser parser) {
     if (!parser.present("--input")) {
         cout << "no input file" << endl;
@@ -87,18 +109,24 @@ void encode_main(argparse::ArgumentParser parser) {
         //writeMetaNodes(root, &fout, max_num_byte);                                      // save metadata tree
 
     
-        string code = "101001";
+        string code = "1000001";
+        
+        bitset<16> bits(code);
+        char buf[2];
+        int n_byte;
+        bitset_2_array(bits, 16, buf, n_byte);
+        cout << (int)buf[0] << (int)buf[1] << endl;
+        cout << n_byte << endl;
+
         /*code = string(10, '0') + code;
         cout << code << endl;*/
-        bitset<16> bits(code);
         cout << bits << endl;
 
-        bits >>= (4);
-        cout << bits << endl;
+        /*bits >>= (4);
+        cout << bits << endl;*/
 
-        bits >>= (16 - code.length() + 9 - 1);
-        bits >>= (code.length() - 15);
-        cout << bits<< endl;
+        cout << (bits << 1)<< endl;
+        
         
 
         fout.close();
