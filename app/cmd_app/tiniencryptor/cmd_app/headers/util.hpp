@@ -1,6 +1,8 @@
 #pragma once
 #include <argparse/argparse.hpp>
 
+
+
 /**
     parse arguments with different options
     @param parser: argument parser reference
@@ -14,7 +16,8 @@ enum mode_choices {
     MODE_ENCODE,
     MODE_DECODE,
     MODE_ENCRYPT,
-    MODE_DECRYPT
+    MODE_DECRYPT,
+    MODE_TEST
 };
 
 mode_choices mode_switch_hash(std::string mode);

@@ -5,6 +5,10 @@
 
 
 
+// constants
+const unsigned short huffman_code_max_length_bit = 256;
+const unsigned short huffman_code_max_length_byte = huffman_code_max_length_bit / 8;
+
 /**
     Huffman Tree Node
     Used to construct huffman tree
@@ -116,7 +120,16 @@ void free_nodes(EncodeNode* node);
 */
 void generate_huffman_table(std::map<char, std::string>& m, EncodeNode* node, std::string code);
 
-
 int getNumNode(EncodeNode* node);
 
-void writeMetaNodes(EncodeNode* node, std::ofstream *fout);
+unsigned short max_num_byte_needed(EncodeNode* node);
+
+
+/**
+ * Write a nodes to file, not writing a struct
+ * Format:
+ * 1 byte: char in ascci
+ * 2 byte: number of bit of code, range from 0-256
+ * 1-32 bytes: code
+ */
+void writeMetaNodes(EncodeNode* node, std::ofstream *fout, unsigned short max_num_byte);

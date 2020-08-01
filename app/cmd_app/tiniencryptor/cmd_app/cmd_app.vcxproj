@@ -147,6 +147,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\decode.cpp" />
     <ClCompile Include="src\encode.cpp" />
     <ClCompile Include="src\huffman.cpp" />
     <ClCompile Include="src\util.cpp" />
@@ -154,6 +155,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="headers\argparse.hpp" />
+    <ClInclude Include="headers\decode.hpp" />
     <ClInclude Include="headers\encode.hpp" />
     <ClInclude Include="headers\huffman.hpp" />
     <ClInclude Include="headers\util.hpp" />

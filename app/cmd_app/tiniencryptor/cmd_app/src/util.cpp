@@ -2,11 +2,15 @@
 #include "util.hpp"
 
 
+
+
+
 mode_choices mode_switch_hash(std::string mode) {
     if (mode == "encode") return MODE_ENCODE;
     if (mode == "decode") return MODE_DECODE;
     if (mode == "encrypt") return MODE_ENCRYPT;
     if (mode == "decrypt") return MODE_DECRYPT;
+    if (mode == "test") return MODE_TEST;
 }
 
 void parse_arguments(argparse::ArgumentParser& parser, int argc, const char** argv) {
@@ -28,3 +32,4 @@ void parse_arguments(argparse::ArgumentParser& parser, int argc, const char** ar
         exit(0);
     }
 }
+

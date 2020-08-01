@@ -8,10 +8,17 @@
 #include "util.hpp"
 #include "encode.hpp"
 
+
+
 using namespace std;
 void encode_main(argparse::ArgumentParser parser) {
     if (!parser.present("--input")) {
-        cout << "no input file\n";
+        cout << "no input file" << endl;
+        exit(1);
+    }
+    else if (!parser.present("--output")) {
+        cout << "no output file" << endl;
+        exit(1);
     }
     else {
         string input_filename = parser.get<string>("--input");
@@ -70,16 +77,30 @@ void encode_main(argparse::ArgumentParser parser) {
         cout << "MetaNode Size: " << sizeof(MetaNode) << endl;
 
 
+        
+
+        unsigned short max_num_byte = max_num_byte_needed(root);
+        cout << "max number of byte needed for code: " << max_num_byte << endl;
         cout << "MetadataHead Size: " << sizeof(MetadataHead) << endl;
-        MetadataHead metadata_head(total_num_node, num_metanode, offset, 9);
-        fout.write(reinterpret_cast<char*>(&metadata_head), sizeof(MetadataHead));
+        MetadataHead metadata_head(total_num_node, num_metanode, offset, max_num_byte);
+        fout.write(reinterpret_cast<char*>(&metadata_head), sizeof(MetadataHead));      // save metadata head
+        //writeMetaNodes(root, &fout, max_num_byte);                                      // save metadata tree
 
+    
+        string code = "101001";
+        /*code = string(10, '0') + code;
+        cout << code << endl;*/
+        bitset<16> bits(code);
+        cout << bits << endl;
 
+        bits >>= (4);
+        cout << bits << endl;
 
-        //unsigned short number_of_node = lookup_table.size();
-        //ofstream fout("file.bin", ios::binary | ios::out);
-        //fout.write((char*) &number_of_node, sizeof(unsigned short));
-        // construct array of table_row struct
+        bits >>= (16 - code.length() + 9 - 1);
+        bits >>= (code.length() - 15);
+        cout << bits<< endl;
+        
+
         fout.close();
 
         free_nodes(root);
