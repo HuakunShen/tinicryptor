@@ -364,3 +364,5 @@ FodyWeavers.xsd
 app/cmd_app/.DS_Store
 
 app/cmd_app/tiniencryptor/.DS_Store
+
+.DS_Store
