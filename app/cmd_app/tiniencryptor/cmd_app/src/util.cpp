@@ -1,6 +1,13 @@
-#include "util.hpp"
 #include <argparse/argparse.hpp>
+#include "util.hpp"
 
+
+mode_choices mode_switch_hash(std::string mode) {
+    if (mode == "encode") return MODE_ENCODE;
+    if (mode == "decode") return MODE_DECODE;
+    if (mode == "encrypt") return MODE_ENCRYPT;
+    if (mode == "decrypt") return MODE_DECRYPT;
+}
 
 void parse_arguments(argparse::ArgumentParser& parser, int argc, const char** argv) {
     parser.add_argument("-i", "--input")

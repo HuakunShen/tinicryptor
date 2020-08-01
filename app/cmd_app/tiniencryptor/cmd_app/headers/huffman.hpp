@@ -1,17 +1,8 @@
 #pragma once
 #include <string>
-#include<map>
+#include <map>
 #include <fstream>
 
-/*
-Metadata data design
-In order:
-2 bytes: total number of metanode
-2 bytes: total number of regular node
-1 byte: number of offset at the end of the encoded file
-Serialized Tree Nodes(Struct)
-Data
-*/
 
 
 /**
@@ -22,30 +13,18 @@ Data
     @param value: char/byte to be encoded to be shorter, is declared as string because string concatenation is required when generating tree
  */
 class EncodeNode {
-public:    
-    std::string value = "";
+public:
+    std::string value = "";     // ascci char, may be concatenated in encoding process so declared as "string"
     int freq = 0;
     EncodeNode* left = NULL;
     EncodeNode* right = NULL;
     std::string code = "";
     int offset = 0;             // freq x code.length() % 8, use this to calculate offset at end of encoded file (reciprocal)
-    // unsigned short 
-    EncodeNode(std::string value, int freq) {
-        this->value = value;
-        this->freq = freq;
-    }
-
-    EncodeNode(std::string value, int freq, EncodeNode* left, EncodeNode* right) {
-        this->value = value;
-        this->freq = freq;
-        this->left = left;
-        this->right = right;
-    }
-    bool isLeaf() {
-
-        return left == NULL && right == NULL;
-    }
     
+    EncodeNode(std::string value, int freq);
+    EncodeNode(std::string value, int freq, EncodeNode* left, EncodeNode* right);
+    bool isLeaf();
+
 };
 //bool EncodeNode::isLeaf() {
 //    //return !(this->left || this->right);
@@ -69,14 +48,37 @@ public:
 
 
 /**
- * Strcut to be saved into metadata in order to reconstruct a Tree 
+ * Strcut to be saved into metadata in order to reconstruct a Tree,
+ * to be saved into file as array of MetaNode
  */
 struct MetaNode {
     char c;
-    int code;
-    char num_bit;
+    char code[32];
+    unsigned char num_bit;
+
+    MetaNode(char c, char *code, char num_bit);
+    bool operator==(const MetaNode& other);
 };
 
+
+/**
+ * Metadata header part, contains all metadata other than the lookup table tree
+ * Metadata data design
+ * In order:
+ * 2 bytes: total number of metanode
+ * 2 bytes: total number of regular node
+ * 1 byte: number of offset at the end of the encoded file
+ * 1 byte: number of byte used to store code, max 32, 256 bits = 32 bytes
+ * Serialized Tree Nodes(Struct)
+ * Data
+ */
+struct MetadataHead {
+    unsigned short num_node = 0;
+    unsigned short num_metanode = 0;        
+    unsigned char offset = 0;               // number of bit offset at the end of the encoded file
+    unsigned char code_num_byte = 0;        // number of byte used to store code, max 32, 256 bits = 32 bytes
+    MetadataHead(unsigned short num_node, unsigned short num_metanode, unsigned char offset, unsigned char code_num_byte);
+};
 
 
 /**

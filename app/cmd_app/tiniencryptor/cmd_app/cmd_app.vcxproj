@@ -147,12 +147,14 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\encode.cpp" />
     <ClCompile Include="src\huffman.cpp" />
     <ClCompile Include="src\util.cpp" />
     <ClCompile Include="src\cmd_app.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="headers\argparse.hpp" />
+    <ClInclude Include="headers\encode.hpp" />
     <ClInclude Include="headers\huffman.hpp" />
     <ClInclude Include="headers\util.hpp" />
   </ItemGroup>
