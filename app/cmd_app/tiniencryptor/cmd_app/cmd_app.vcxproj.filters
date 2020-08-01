@@ -18,10 +18,10 @@
     <ClCompile Include="src\cmd_app.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="huffman.cpp">
+    <ClCompile Include="src\util.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\util.cpp">
+    <ClCompile Include="src\huffman.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -29,10 +29,10 @@
     <ClInclude Include="headers\argparse.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="headers\huffman.hpp">
+    <ClInclude Include="headers\util.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="headers\util.hpp">
+    <ClInclude Include="headers\huffman.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

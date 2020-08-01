@@ -18,6 +18,10 @@ int main(int argc, const char** argv) {
     argparse::ArgumentParser parser("Tinicryptor Argument Parser");
     parse_arguments(parser, argc, argv);
 
+
+    /*if (parser.present("--mode")) {
+
+    }*/
     if (!parser.present("--input")) {
         cout << "no input file\n";
     }
@@ -36,24 +40,23 @@ int main(int argc, const char** argv) {
             m[buffer]++;
         }
         in.close();
-        priority_queue<Node *, std::vector<Node *>, heapCmp> q;
+        priority_queue<EncodeNode *, std::vector<EncodeNode *>, heapCmp> q;
         for (auto const &pair : m) {
-            q.push(new Node(string(1, pair.first), pair.second));
+            q.push(new EncodeNode(string(1, pair.first), pair.second));
         }
-
+        
         while (q.size() != 1) {
-            Node *top = q.top();
+            EncodeNode *top = q.top();
             q.pop();
-            Node *top1 = q.top();
+            EncodeNode *top1 = q.top();
             q.pop();
-            Node *p = new Node(top->value + top1->value, top->freq + top1->freq,
+            EncodeNode *p = new EncodeNode(top->value + top1->value, top->freq + top1->freq,
                                top, top1);
             q.push(p);
         }
         map<char, string> lookup_table;
-        Node *root = q.top();
+        EncodeNode *root = q.top();
         generate_huffman_table(lookup_table, root, "");
-        free_nodes(root);
         cout << endl << "char" << ":\t" << "char in bits" << ":\t" << "code"
              << endl;
         for (auto &pair : lookup_table) {
@@ -63,15 +66,28 @@ int main(int argc, const char** argv) {
 
         // save to file
         // generate metadata
-        unsigned short number_of_row = lookup_table.size();
-        ofstream fout("file.bin", ios::binary | ios::out);
-        fout.write((char*) &number_of_row, sizeof(unsigned short));
+        unsigned short total_num_node = getNumNode(root);
+        cout << "total_num_node: " << total_num_node << endl;
+        unsigned short num_metanode = lookup_table.size() * 2 + total_num_node;
+        cout << "num_metanode: " << num_metanode<< endl;
+        ofstream fout(parser.get<string>("--output"), ios::binary | ios::out);
+        fout.write((char*) &num_metanode, sizeof(unsigned short));
+        fout.write((char*) &total_num_node, sizeof(unsigned short));
+
+        unsigned char offset = 8 - root->offset;
+        cout << "offset: " << (unsigned short)offset << endl;
+        fout.write((char*) &offset, sizeof(unsigned char));
+
+        //unsigned short number_of_node = lookup_table.size();
+        //ofstream fout("file.bin", ios::binary | ios::out);
+        //fout.write((char*) &number_of_node, sizeof(unsigned short));
         // construct array of table_row struct
         fout.close();
 
 
 
 
+        free_nodes(root);
 
     }
 
