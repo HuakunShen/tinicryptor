@@ -84,10 +84,8 @@ void generate_huffman_table(map<char, string> &m, EncodeNode *node, string code)
         generate_huffman_table(m, node->right, new_code);
         right_offset = node->right->offset;
     }
-
     node->offset = (left_offset + right_offset) % 8;
     node->code = new_code;
-
 }
 
 
@@ -142,6 +140,4 @@ void writeMetaNodes(EncodeNode *node, ofstream *fout, unsigned short max_num_byt
         writeMetaNodes(node->left, fout, max_num_byte);
         writeMetaNodes(node->right, fout, max_num_byte);
     }
-
-
 }
