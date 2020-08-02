@@ -35,8 +35,14 @@ int main(int argc, const char** argv) {
             test();
             break;
         default:
+            cout << "--mode argument \"" + mode + "\" not valid" << endl;
+            cout << "Choose from the following modes:" << endl;
+            cout << ALL_MODES << endl;
             break;
         }
+    }
+    else {
+        cout << "Error! --mode is required but missing, maybe not detected by argparse" << endl;
     }
 }
 
