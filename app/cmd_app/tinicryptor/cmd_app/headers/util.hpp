@@ -18,7 +18,7 @@ void parse_arguments(argparse::ArgumentParser &parser, int argc, const char **ar
 
 
 /**
- * Choices of --mode
+    Choices of --mode
  */
 enum mode_choices {
     MODE_ENCODE,
@@ -31,7 +31,7 @@ enum mode_choices {
 
 
 /**
- * Take in a string from --mode argument and return the corresponding mode_choices type
- * @param mode: --mode argument
- */
+    Take in a string from --mode argument and return the corresponding mode_choices type
+    @param mode: --mode argument
+*/
 mode_choices mode_switch_hash(std::string mode);

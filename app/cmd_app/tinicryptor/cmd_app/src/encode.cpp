@@ -12,20 +12,7 @@
 using namespace std;
 
 
-void bitset_2_array(const std::bitset<16> &bits, int32_t n_set_size, char *buf, int32_t &n_bytes) {
 
-    n_bytes = 0;
-    for (int i = 0; i < n_set_size; i += 8) {
-        char ch;
-        for (int j = 0; j < 8; ++j) {
-            if (bits.test(i + j))
-                ch |= (1 << j);
-            else
-                ch &= ~(1 << j);
-        }
-        buf[n_bytes++] = ch;
-    }
-}
 
 
 void encode_main(argparse::ArgumentParser parser) {
@@ -37,19 +24,18 @@ void encode_main(argparse::ArgumentParser parser) {
         exit(1);
     } else {
         string input_filename = parser.get<string>("--input");
-        std::ifstream in(input_filename, ios::ate | ios::binary);
-        int filesize = in.tellg();
+        std::ifstream fin(input_filename, ios::ate | ios::binary);
+        int filesize = fin.tellg();
         cout << "file size: " << filesize << " bytes" << endl;
-        in.seekg(0, in.beg);
+        fin.seekg(0, fin.beg);
         map<char, int> m;
         char buffer;
-        int i = 0;
+        long long i = 0;
         while (i < filesize) {
             i++;
-            in.read(&buffer, 1);
+            fin.read(&buffer, 1);
             m[buffer]++;
         }
-        in.close();
         priority_queue<EncodeNode *, std::vector<EncodeNode *>, heapCmp> q;
         for (auto const &pair : m) {
             q.push(new EncodeNode(string(1, pair.first), pair.second));
@@ -87,38 +73,43 @@ void encode_main(argparse::ArgumentParser parser) {
         unsigned char offset = 8 - root->offset;
         cout << "offset: " << (unsigned short) offset << endl;
         //fout.write((char*) &offset, sizeof(unsigned char));
-
+        
 
         cout << "MetaNode Size: " << sizeof(MetaNode) << endl;
 
 
-        unsigned short max_num_byte = max_num_byte_needed(root);
-        cout << "max number of byte needed for code: " << max_num_byte << endl;
         cout << "MetadataHead Size: " << sizeof(MetadataHead) << endl;
-        MetadataHead metadata_head(total_num_node, num_metanode, offset, max_num_byte);
+        MetadataHead metadata_head(total_num_node, num_metanode, offset);
         fout.write(reinterpret_cast<char *>(&metadata_head), sizeof(MetadataHead));      // save metadata head
-        //writeMetaNodes(root, &fout, max_num_byte);                                      // save metadata tree
+        writeMetaNodes(root, &fout);                                                     // save metadata tree
 
+        // start writing actual encoded data to output file
+        cout << endl << "writing actual encoded data to output file" << endl;
+        fin.seekg(0, fin.beg);
+        i = 0;
+        string write_buf_str = "";
+        
+        while (i < filesize) {
+            i++;
+            fin.read(&buffer, 1);
+            string code = lookup_table[buffer];
+            write_buf_str += code;
+            while (write_buf_str.length() >= 8) {
+                string write_buf_str_8 = write_buf_str.substr(0, 8);
+                bitset<8> buf_bits(write_buf_str_8);
+                char to_write_char = static_cast<unsigned char>(buf_bits.to_ulong());
+                fout.write(&to_write_char, sizeof(char));
+                write_buf_str = write_buf_str.substr(8, write_buf_str.length() - 8);
+            }
+        }
+        if (write_buf_str.length() > 0) {
+            bitset <8> buf_bits(write_buf_str);
+            char to_write_char = static_cast<unsigned char>(buf_bits.to_ulong());
+            to_write_char <<= 8 - write_buf_str.length();
+            fout.write(&to_write_char, sizeof(char));
+        }
 
-        string code = "1000001";
-
-        bitset<16> bits(code);
-        char buf[2];
-        int n_byte;
-        bitset_2_array(bits, 16, buf, n_byte);
-        cout << (int) buf[0] << (int) buf[1] << endl;
-        cout << n_byte << endl;
-
-        /*code = string(10, '0') + code;
-        cout << code << endl;*/
-        cout << bits << endl;
-
-        /*bits >>= (4);
-        cout << bits << endl;*/
-
-        cout << (bits << 1) << endl;
-
-
+        fin.close();
         fout.close();
 
         free_nodes(root);

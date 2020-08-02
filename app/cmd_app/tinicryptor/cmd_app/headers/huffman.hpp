@@ -39,8 +39,8 @@ public:
 
 
 /**
- * Node struct used for decoding purpose
- */
+    Node struct used for decoding purpose
+*/
 //struct DecodeNode {
 //    char c;
 //    DecodeNode* left;
@@ -54,54 +54,49 @@ public:
 
 
 /**
- * Strcut to be saved into metadata in order to reconstruct a Tree,
- * to be saved into file as array of MetaNode
- */
+    Strcut to be saved into metadata in order to reconstruct a Tree,
+    to be saved into file as array of MetaNode
+*/
 struct MetaNode {
     char c;
-    char code[32];
-    unsigned char num_bit;
-
-    MetaNode(char c, char *code, char num_bit);
+    bool isNull;
+    MetaNode(char c, bool isNull);
 
     bool operator==(const MetaNode &other);
 };
 
 
 /**
- * Metadata header part, contains all metadata other than the lookup table tree
- * Metadata data design
- * In order:
- * 2 bytes: total number of metanode
- * 2 bytes: total number of regular node
- * 1 byte: number of offset at the end of the encoded file
- * 1 byte: number of byte used to store code, max 32, 256 bits = 32 bytes
- * Serialized Tree Nodes(Struct)
- * Data
- */
+    Metadata header part, contains all metadata other than the lookup table tree
+    Metadata data design
+    In order:
+    2 bytes: total number of metanode
+    2 bytes: total number of regular node
+    1 byte: number of offset at the end of the encoded file
+    Serialized Tree Nodes(Struct)
+    Data
+*/
 struct MetadataHead {
     unsigned short num_node = 0;
     unsigned short num_metanode = 0;
     unsigned char offset = 0;               // number of bit offset at the end of the encoded file
-    unsigned char code_num_byte = 0;        // number of byte used to store code, max 32, 256 bits = 32 bytes
-    MetadataHead(unsigned short num_node, unsigned short num_metanode, unsigned char offset,
-                 unsigned char code_num_byte);
+    MetadataHead(unsigned short num_node, unsigned short num_metanode, unsigned char offset);
 };
 
 
 /**
- * to store in metadata as lookup table
- * @param chr: char in ascci
- * @param code: huffman encoded code
- */
+    to store in metadata as lookup table
+    @param chr: char in ascci
+    @param code: huffman encoded code
+*/
 struct table_row {
     char chr;
     int code;
 };
 
 /**
- * struct for heap comparing function
- */
+    struct for heap comparing function
+*/
 struct heapCmp {
     bool operator()(EncodeNode *a, EncodeNode *b) {
         return a->freq > b->freq;
@@ -123,31 +118,29 @@ void free_nodes(EncodeNode *node);
 void generate_huffman_table(std::map<char, std::string> &m, EncodeNode *node, std::string code);
 
 /**
- * Get number of node in a EncodeNode Tree given the root
- * @param node: a EncodeNode (root node)
- * @return integer, number of nodes in the tree
- */
+    Get number of node in a EncodeNode Tree given the root
+    @param node: a EncodeNode (root node)
+    @return integer, number of nodes in the tree
+*/
 int getNumNode(EncodeNode *node);
 
 
 /**
- * Given the root node of a EncodeNode tree, traverse through the tree and
- * calculate the maximum number of byte needed to store the code (binary code)
- *
- * @param node: EncodeNode (root node)
- * @return unsigned short max number of byte that's needed to store code
- */
+    Given the root node of a EncodeNode tree, traverse through the tree and
+    calculate the maximum number of byte needed to store the code (binary code)
+    @param node: EncodeNode (root node)
+    @return unsigned short max number of byte that's needed to store code
+*/
 unsigned short max_num_byte_needed(EncodeNode *node);
 
 
 /**
- * Write a nodes to file, not writing a struct
- * Format:
- * 1 byte: char in ascci
- * 2 byte: number of bit of code, range from 0-256
- * 1-32 bytes: code
- * @param node: root EncodeNode node
- * @param fout: out file stream pointer
- * @param max_num_byte: max number of byte required to store code
- */
-void writeMetaNodes(EncodeNode *node, std::ofstream *fout, unsigned short max_num_byte);
+    Write a nodes to file, not writing a struct
+    Format:
+    1 byte: char in ascci
+    1 byte: indicate wether this node exists
+    @param node: root EncodeNode node
+    @param fout: out file stream pointer
+    @param max_num_byte: max number of byte required to store code
+*/
+void writeMetaNodes(EncodeNode *node, std::ofstream *fout);

@@ -28,25 +28,22 @@ bool EncodeNode::isLeaf() {
 
 
 // class body of MetaNode ==============================================================
-MetaNode::MetaNode(char c, char *code, char num_bit) {
+MetaNode::MetaNode(char c, bool isNull) {
     this->c = c;
-    strncpy(this->code, code, 32);
-    this->num_bit = num_bit;
+    this->isNull = isNull;
 }
 
 bool MetaNode::operator==(const MetaNode &other) {
-    return this->c == other.c && strncmp(this->code, other.code, 32) && this->num_bit == other.num_bit;
+    return this->c == other.c && this->isNull == other.isNull;
 }
 // =====================================================================================
 
 
 // class body of MetadataHead ==========================================================
-MetadataHead::MetadataHead(unsigned short num_node, unsigned short num_metanode, unsigned char offset,
-                           unsigned char code_num_byte) {
+MetadataHead::MetadataHead(unsigned short num_node, unsigned short num_metanode, unsigned char offset) {
     this->num_node = num_node;
     this->num_metanode = num_metanode;
     this->offset = offset;
-    this->code_num_byte = code_num_byte;
 }
 // =====================================================================================
 
@@ -118,26 +115,14 @@ unsigned short max_num_byte_needed(EncodeNode *node) {
 }
 
 
-void writeMetaNodes(EncodeNode *node, ofstream *fout, unsigned short max_num_byte) {
-    if (node != NULL && (node->value).length() != 1) {
-        // leaf node should have value be exactly one char
-        cout << "Error" << endl;
-        exit(1);
-    }
-
+void writeMetaNodes(EncodeNode *node, ofstream *fout) {
     // write current node to file
     char c = node == NULL ? '\0' : (node->value).c_str()[0];
-    unsigned short num_bits = node == NULL ? 0 : (node->code).length();
-    fout->write(&c, sizeof(char));                                  // save first byte (char in ascii)
-    fout->write((char *) &num_bits, sizeof(unsigned short));          // save 2-3 bytes (number of bit of code)
-    if (node == NULL) {
-        char *code_bytes = new char[max_num_byte];
-        for (short i = 0; i < max_num_byte; i++) code_bytes[i] = '\0';  // init to all NULL
-        fout->write(code_bytes, max_num_byte);                          // save max_num_byte NULL bytes
-        delete[] code_bytes;
-    } else {
-
-        writeMetaNodes(node->left, fout, max_num_byte);
-        writeMetaNodes(node->right, fout, max_num_byte);
+    bool isNull = node == NULL ? true : false;
+    MetaNode metanode(c, isNull);
+    fout->write((char *)(&metanode), sizeof(MetaNode));
+    if (node) {
+        writeMetaNodes(node->left, fout);
+        writeMetaNodes(node->right, fout);
     }
 }
