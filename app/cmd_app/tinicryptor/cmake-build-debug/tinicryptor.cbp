@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6"/>
+	<Project>
+		<Option title="tinicryptor"/>
+		<Option makefile_is_custom="1"/>
+		<Option compiler="gcc"/>
+		<Option virtualFolders="CMake Files\;"/>
+		<Build>
+			<Target title="all">
+				<Option working_dir="/Users/huakunshen/Local/Dev/tinicryptor/app/cmd_app/tinicryptor/cmake-build-debug"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j16 -f &quot;/Users/huakunshen/Local/Dev/tinicryptor/app/cmd_app/tinicryptor/cmake-build-debug/Makefile&quot;  VERBOSE=1 all"/>
+					<CompileFile command="/usr/bin/make -j16 -f &quot;/Users/huakunshen/Local/Dev/tinicryptor/app/cmd_app/tinicryptor/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j16 -f &quot;/Users/huakunshen/Local/Dev/tinicryptor/app/cmd_app/tinicryptor/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j16 -f &quot;/Users/huakunshen/Local/Dev/tinicryptor/app/cmd_app/tinicryptor/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="rebuild_cache">
+				<Option working_dir="/Users/huakunshen/Local/Dev/tinicryptor/app/cmd_app/tinicryptor/cmake-build-debug"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j16 -f &quot;/Users/huakunshen/Local/Dev/tinicryptor/app/cmd_app/tinicryptor/cmake-build-debug/Makefile&quot;  VERBOSE=1 rebuild_cache"/>
+					<CompileFile command="/usr/bin/make -j16 -f &quot;/Users/huakunshen/Local/Dev/tinicryptor/app/cmd_app/tinicryptor/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j16 -f &quot;/Users/huakunshen/Local/Dev/tinicryptor/app/cmd_app/tinicryptor/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j16 -f &quot;/Users/huakunshen/Local/Dev/tinicryptor/app/cmd_app/tinicryptor/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="edit_cache">
+				<Option working_dir="/Users/huakunshen/Local/Dev/tinicryptor/app/cmd_app/tinicryptor/cmake-build-debug"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j16 -f &quot;/Users/huakunshen/Local/Dev/tinicryptor/app/cmd_app/tinicryptor/cmake-build-debug/Makefile&quot;  VERBOSE=1 edit_cache"/>
+					<CompileFile command="/usr/bin/make -j16 -f &quot;/Users/huakunshen/Local/Dev/tinicryptor/app/cmd_app/tinicryptor/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j16 -f &quot;/Users/huakunshen/Local/Dev/tinicryptor/app/cmd_app/tinicryptor/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j16 -f &quot;/Users/huakunshen/Local/Dev/tinicryptor/app/cmd_app/tinicryptor/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="tinicryptor">
+				<Option output="/Users/huakunshen/Local/Dev/tinicryptor/app/cmd_app/tinicryptor/cmake-build-debug/tinicryptor" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/Users/huakunshen/Local/Dev/tinicryptor/app/cmd_app/tinicryptor/cmake-build-debug"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add directory="/Users/huakunshen/Local/Dev/tinicryptor/app/cmd_app/tinicryptor/cmd_app/headers"/>
+					<Add directory="/Users/huakunshen/Local/Dev/tinicryptor/app/cmd_app/tinicryptor/Dependencies/argparse/include"/>
+					<Add directory="/Library/Developer/CommandLineTools/usr/bin/../include/c++/v1"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/Library/Developer/CommandLineTools/usr/lib/clang/11.0.3/include"/>
+					<Add directory="/Library/Developer/CommandLineTools/usr/include"/>
+					<Add directory="/System/Library/Frameworks"/>
+					<Add directory="/Library/Frameworks"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j16 -f &quot;/Users/huakunshen/Local/Dev/tinicryptor/app/cmd_app/tinicryptor/cmake-build-debug/Makefile&quot;  VERBOSE=1 tinicryptor"/>
+					<CompileFile command="/usr/bin/make -j16 -f &quot;/Users/huakunshen/Local/Dev/tinicryptor/app/cmd_app/tinicryptor/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j16 -f &quot;/Users/huakunshen/Local/Dev/tinicryptor/app/cmd_app/tinicryptor/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j16 -f &quot;/Users/huakunshen/Local/Dev/tinicryptor/app/cmd_app/tinicryptor/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="tinicryptor/fast">
+				<Option output="/Users/huakunshen/Local/Dev/tinicryptor/app/cmd_app/tinicryptor/cmake-build-debug/tinicryptor" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/Users/huakunshen/Local/Dev/tinicryptor/app/cmd_app/tinicryptor/cmake-build-debug"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add directory="/Users/huakunshen/Local/Dev/tinicryptor/app/cmd_app/tinicryptor/cmd_app/headers"/>
+					<Add directory="/Users/huakunshen/Local/Dev/tinicryptor/app/cmd_app/tinicryptor/Dependencies/argparse/include"/>
+					<Add directory="/Library/Developer/CommandLineTools/usr/bin/../include/c++/v1"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/Library/Developer/CommandLineTools/usr/lib/clang/11.0.3/include"/>
+					<Add directory="/Library/Developer/CommandLineTools/usr/include"/>
+					<Add directory="/System/Library/Frameworks"/>
+					<Add directory="/Library/Frameworks"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j16 -f &quot;/Users/huakunshen/Local/Dev/tinicryptor/app/cmd_app/tinicryptor/cmake-build-debug/Makefile&quot;  VERBOSE=1 tinicryptor/fast"/>
+					<CompileFile command="/usr/bin/make -j16 -f &quot;/Users/huakunshen/Local/Dev/tinicryptor/app/cmd_app/tinicryptor/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j16 -f &quot;/Users/huakunshen/Local/Dev/tinicryptor/app/cmd_app/tinicryptor/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j16 -f &quot;/Users/huakunshen/Local/Dev/tinicryptor/app/cmd_app/tinicryptor/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+		</Build>
+		<Unit filename="/Users/huakunshen/Local/Dev/tinicryptor/app/cmd_app/tinicryptor/Dependencies/argparse/include/argparse/argparse.hpp">
+			<Option target="tinicryptor"/>
+		</Unit>
+		<Unit filename="/Users/huakunshen/Local/Dev/tinicryptor/app/cmd_app/tinicryptor/cmd_app/headers/decode.hpp">
+			<Option target="tinicryptor"/>
+		</Unit>
+		<Unit filename="/Users/huakunshen/Local/Dev/tinicryptor/app/cmd_app/tinicryptor/cmd_app/headers/encode.hpp">
+			<Option target="tinicryptor"/>
+		</Unit>
+		<Unit filename="/Users/huakunshen/Local/Dev/tinicryptor/app/cmd_app/tinicryptor/cmd_app/headers/huffman.hpp">
+			<Option target="tinicryptor"/>
+		</Unit>
+		<Unit filename="/Users/huakunshen/Local/Dev/tinicryptor/app/cmd_app/tinicryptor/cmd_app/headers/util.hpp">
+			<Option target="tinicryptor"/>
+		</Unit>
+		<Unit filename="/Users/huakunshen/Local/Dev/tinicryptor/app/cmd_app/tinicryptor/cmd_app/src/cmd_app.cpp">
+			<Option target="tinicryptor"/>
+		</Unit>
+		<Unit filename="/Users/huakunshen/Local/Dev/tinicryptor/app/cmd_app/tinicryptor/cmd_app/src/decode.cpp">
+			<Option target="tinicryptor"/>
+		</Unit>
+		<Unit filename="/Users/huakunshen/Local/Dev/tinicryptor/app/cmd_app/tinicryptor/cmd_app/src/encode.cpp">
+			<Option target="tinicryptor"/>
+		</Unit>
+		<Unit filename="/Users/huakunshen/Local/Dev/tinicryptor/app/cmd_app/tinicryptor/cmd_app/src/huffman.cpp">
+			<Option target="tinicryptor"/>
+		</Unit>
+		<Unit filename="/Users/huakunshen/Local/Dev/tinicryptor/app/cmd_app/tinicryptor/cmd_app/src/util.cpp">
+			<Option target="tinicryptor"/>
+		</Unit>
+		<Unit filename="/Users/huakunshen/Local/Dev/tinicryptor/app/cmd_app/tinicryptor/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\"/>
+		</Unit>
+	</Project>
+</CodeBlocks_project_file>

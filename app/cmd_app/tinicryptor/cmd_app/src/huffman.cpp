@@ -1,6 +1,7 @@
 #include <string>
 #include <iostream>
 #include <algorithm>
+#include <cmath>
 
 #include "huffman.hpp"
 
@@ -27,7 +28,7 @@ bool EncodeNode::isLeaf() {
 // class body of MetaNode ==============================================================
 MetaNode::MetaNode(char c, char *code, char num_bit) {
     this->c = c;
-    strncpy_s(this->code, code, 32);
+    strncpy(this->code, code, 32);
     this->num_bit = num_bit;
 }
 bool MetaNode::operator==(const MetaNode& other)
@@ -102,7 +103,7 @@ int getNumNode(EncodeNode *node) {
 
 unsigned short max_num_byte_needed(EncodeNode* node) {
     if (node->isLeaf()) {
-        return std::ceil((node->code).length() / 8.0);
+        return ceil((node->code).length() / 8.0);
     }
     unsigned short  left_num_byte = huffman_code_max_length_byte;
     unsigned short  right_num_byte = huffman_code_max_length_byte;

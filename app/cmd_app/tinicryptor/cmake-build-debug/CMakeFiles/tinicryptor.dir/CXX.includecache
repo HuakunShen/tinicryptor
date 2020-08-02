@@ -1,0 +1,28 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+../cmd_app/headers/huffman.hpp
+string
+-
+map
+-
+fstream
+-
+
+/Users/huakunshen/Local/Dev/tinicryptor/app/cmd_app/tinicryptor/cmd_app/src/huffman.cpp
+string
+-
+iostream
+-
+algorithm
+-
+cmath
+-
+huffman.hpp
+/Users/huakunshen/Local/Dev/tinicryptor/app/cmd_app/tinicryptor/cmd_app/src/huffman.hpp
+
