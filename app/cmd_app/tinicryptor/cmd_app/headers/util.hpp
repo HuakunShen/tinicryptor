@@ -1,4 +1,5 @@
 #pragma once
+
 #include <argparse/argparse.hpp>
 
 #define ALL_MODES "1. encode\n" \
@@ -13,7 +14,7 @@
     @param argc: number of arguments
     @param argv: argument list
 */
-void parse_arguments(argparse::ArgumentParser& parser, int argc, const char** argv);
+void parse_arguments(argparse::ArgumentParser &parser, int argc, const char **argv);
 
 
 /**

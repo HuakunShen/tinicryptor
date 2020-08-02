@@ -13,12 +13,14 @@ EncodeNode::EncodeNode(string value, int freq) {
     this->value = value;
     this->freq = freq;
 }
-EncodeNode::EncodeNode(string value, int freq, EncodeNode* left, EncodeNode* right) {
+
+EncodeNode::EncodeNode(string value, int freq, EncodeNode *left, EncodeNode *right) {
     this->value = value;
     this->freq = freq;
     this->left = left;
     this->right = right;
 }
+
 bool EncodeNode::isLeaf() {
     return !(this->left || this->right);
 }
@@ -31,15 +33,16 @@ MetaNode::MetaNode(char c, char *code, char num_bit) {
     strncpy(this->code, code, 32);
     this->num_bit = num_bit;
 }
-bool MetaNode::operator==(const MetaNode& other)
-{
+
+bool MetaNode::operator==(const MetaNode &other) {
     return this->c == other.c && strncmp(this->code, other.code, 32) && this->num_bit == other.num_bit;
 }
 // =====================================================================================
 
 
 // class body of MetadataHead ==========================================================
-MetadataHead::MetadataHead(unsigned short num_node, unsigned short num_metanode, unsigned char offset, unsigned char code_num_byte) {
+MetadataHead::MetadataHead(unsigned short num_node, unsigned short num_metanode, unsigned char offset,
+                           unsigned char code_num_byte) {
     this->num_node = num_node;
     this->num_metanode = num_metanode;
     this->offset = offset;
@@ -50,14 +53,14 @@ MetadataHead::MetadataHead(unsigned short num_node, unsigned short num_metanode,
 
 
 
-void free_nodes(EncodeNode* node) {
+void free_nodes(EncodeNode *node) {
     if (!node) return;
     free_nodes(node->left);
     free_nodes(node->right);
     delete node;
 }
 
-void generate_huffman_table(map<char, string>& m, EncodeNode* node, string code) {
+void generate_huffman_table(map<char, string> &m, EncodeNode *node, string code) {
     if (!node) return;
     if (!node->left && !node->right) {
         if (node->value.length() != 1) {
@@ -81,7 +84,7 @@ void generate_huffman_table(map<char, string>& m, EncodeNode* node, string code)
         generate_huffman_table(m, node->right, new_code);
         right_offset = node->right->offset;
     }
-    
+
     node->offset = (left_offset + right_offset) % 8;
     node->code = new_code;
 
@@ -94,19 +97,18 @@ int getNumNode(EncodeNode *node) {
     }
     if (node->isLeaf()) {
         return 1;
-    }
-    else {
+    } else {
         return getNumNode(node->left) + getNumNode(node->right) + 1;
     }
 }
 
 
-unsigned short max_num_byte_needed(EncodeNode* node) {
+unsigned short max_num_byte_needed(EncodeNode *node) {
     if (node->isLeaf()) {
         return ceil((node->code).length() / 8.0);
     }
-    unsigned short  left_num_byte = huffman_code_max_length_byte;
-    unsigned short  right_num_byte = huffman_code_max_length_byte;
+    unsigned short left_num_byte = huffman_code_max_length_byte;
+    unsigned short right_num_byte = huffman_code_max_length_byte;
     if (node->left) {
         left_num_byte = max_num_byte_needed(node->left);
     }
@@ -118,10 +120,7 @@ unsigned short max_num_byte_needed(EncodeNode* node) {
 }
 
 
-
-
-
-void writeMetaNodes(EncodeNode* node, ofstream* fout, unsigned short max_num_byte) {
+void writeMetaNodes(EncodeNode *node, ofstream *fout, unsigned short max_num_byte) {
     if (node != NULL && (node->value).length() != 1) {
         // leaf node should have value be exactly one char
         cout << "Error" << endl;
@@ -129,23 +128,20 @@ void writeMetaNodes(EncodeNode* node, ofstream* fout, unsigned short max_num_byt
     }
 
     // write current node to file
-    char c = node == NULL ? NULL : (node->value).c_str()[0];
+    char c = node == NULL ? '\0' : (node->value).c_str()[0];
     unsigned short num_bits = node == NULL ? 0 : (node->code).length();
     fout->write(&c, sizeof(char));                                  // save first byte (char in ascii)
-    fout->write((char*)&num_bits, sizeof(unsigned short));          // save 2-3 bytes (number of bit of code)
+    fout->write((char *) &num_bits, sizeof(unsigned short));          // save 2-3 bytes (number of bit of code)
     if (node == NULL) {
-        char* code_bytes = new char[max_num_byte];
-        for (short i = 0; i < max_num_byte; i++) code_bytes[i] = NULL;  // init to all NULL      
+        char *code_bytes = new char[max_num_byte];
+        for (short i = 0; i < max_num_byte; i++) code_bytes[i] = '\0';  // init to all NULL
         fout->write(code_bytes, max_num_byte);                          // save max_num_byte NULL bytes
         delete[] code_bytes;
-    }
-    else {
+    } else {
 
         writeMetaNodes(node->left, fout, max_num_byte);
         writeMetaNodes(node->right, fout, max_num_byte);
     }
-   
-    
 
 
 }

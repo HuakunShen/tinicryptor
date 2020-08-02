@@ -11,21 +11,21 @@ mode_choices mode_switch_hash(std::string mode) {
     return MODE_DNE;
 }
 
-void parse_arguments(argparse::ArgumentParser& parser, int argc, const char** argv) {
+void parse_arguments(argparse::ArgumentParser &parser, int argc, const char **argv) {
     parser.add_argument("-i", "--input")
-        .help("Input filename/address");
+            .help("Input filename/address");
     parser.add_argument("-o", "--output")
-        .help("Output filename/address");
+            .help("Output filename/address");
     parser.add_argument("-m", "--mode")
-        .required()
-        .help("Mode of this program: encode/decode/encrypt/decrypt");
+            .required()
+            .help("Mode of this program: encode/decode/encrypt/decrypt");
     parser.add_argument("-p", "--password")
-        .help("Password for encrypt/decrypt");
+            .help("Password for encrypt/decrypt");
 
     try {
         parser.parse_args(argc, argv);
     }
-    catch (const std::runtime_error& err) {
+    catch (const std::runtime_error &err) {
         std::cout << err.what() << std::endl;
         std::cout << parser;
         exit(0);

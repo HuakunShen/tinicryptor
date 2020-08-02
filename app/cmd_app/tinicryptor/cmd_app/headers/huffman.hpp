@@ -1,8 +1,8 @@
 #pragma once
+
 #include <string>
 #include <map>
 #include <fstream>
-
 
 
 // constants
@@ -20,13 +20,15 @@ class EncodeNode {
 public:
     std::string value = "";     // ascci char, may be concatenated in encoding process so declared as "string"
     int freq = 0;
-    EncodeNode* left = NULL;
-    EncodeNode* right = NULL;
+    EncodeNode *left = NULL;
+    EncodeNode *right = NULL;
     std::string code = "";
     int offset = 0;             // freq x code.length() % 8, use this to calculate offset at end of encoded file (reciprocal)
-    
+
     EncodeNode(std::string value, int freq);
-    EncodeNode(std::string value, int freq, EncodeNode* left, EncodeNode* right);
+
+    EncodeNode(std::string value, int freq, EncodeNode *left, EncodeNode *right);
+
     bool isLeaf();
 
 };
@@ -61,7 +63,8 @@ struct MetaNode {
     unsigned char num_bit;
 
     MetaNode(char c, char *code, char num_bit);
-    bool operator==(const MetaNode& other);
+
+    bool operator==(const MetaNode &other);
 };
 
 
@@ -78,10 +81,11 @@ struct MetaNode {
  */
 struct MetadataHead {
     unsigned short num_node = 0;
-    unsigned short num_metanode = 0;        
+    unsigned short num_metanode = 0;
     unsigned char offset = 0;               // number of bit offset at the end of the encoded file
     unsigned char code_num_byte = 0;        // number of byte used to store code, max 32, 256 bits = 32 bytes
-    MetadataHead(unsigned short num_node, unsigned short num_metanode, unsigned char offset, unsigned char code_num_byte);
+    MetadataHead(unsigned short num_node, unsigned short num_metanode, unsigned char offset,
+                 unsigned char code_num_byte);
 };
 
 
@@ -98,10 +102,8 @@ struct table_row {
 /**
  * struct for heap comparing function
  */
-struct heapCmp
-{
-    bool operator()(EncodeNode* a, EncodeNode* b)
-    {
+struct heapCmp {
+    bool operator()(EncodeNode *a, EncodeNode *b) {
         return a->freq > b->freq;
     }
 };
@@ -110,7 +112,7 @@ struct heapCmp
     free space of Nodes on heap
     @param node: Huffman Tree Node
 */
-void free_nodes(EncodeNode* node);
+void free_nodes(EncodeNode *node);
 
 /**
     generate huffman lookup table (metadata)
@@ -118,11 +120,24 @@ void free_nodes(EncodeNode* node);
     @param node: Huffman Tree Node
     @param code: code for huffman coding
 */
-void generate_huffman_table(std::map<char, std::string>& m, EncodeNode* node, std::string code);
+void generate_huffman_table(std::map<char, std::string> &m, EncodeNode *node, std::string code);
 
-int getNumNode(EncodeNode* node);
+/**
+ * Get number of node in a EncodeNode Tree given the root
+ * @param node: a EncodeNode (root node)
+ * @return integer, number of nodes in the tree
+ */
+int getNumNode(EncodeNode *node);
 
-unsigned short max_num_byte_needed(EncodeNode* node);
+
+/**
+ * Given the root node of a EncodeNode tree, traverse through the tree and
+ * calculate the maximum number of byte needed to store the code (binary code)
+ *
+ * @param node: EncodeNode (root node)
+ * @return unsigned short max number of byte that's needed to store code
+ */
+unsigned short max_num_byte_needed(EncodeNode *node);
 
 
 /**
@@ -131,5 +146,8 @@ unsigned short max_num_byte_needed(EncodeNode* node);
  * 1 byte: char in ascci
  * 2 byte: number of bit of code, range from 0-256
  * 1-32 bytes: code
+ * @param node: root EncodeNode node
+ * @param fout: out file stream pointer
+ * @param max_num_byte: max number of byte required to store code
  */
-void writeMetaNodes(EncodeNode* node, std::ofstream *fout, unsigned short max_num_byte);
+void writeMetaNodes(EncodeNode *node, std::ofstream *fout, unsigned short max_num_byte);
