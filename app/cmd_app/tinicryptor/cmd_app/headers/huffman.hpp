@@ -32,25 +32,22 @@ public:
     bool isLeaf();
 
 };
-//bool EncodeNode::isLeaf() {
-//    //return !(this->left || this->right);
-//    return this->left == NULL && this->right == NULL;
-//}
 
 
 /**
     Node struct used for decoding purpose
 */
-//struct DecodeNode {
-//    char c;
-//    DecodeNode* left;
-//    DecodeNode* right;
-//
-//    bool isLeaf() {
-//        //return !(left || right);
-//        return this->left == NULL && this->right == NULL;
-//    }
-//};
+struct DecodeNode {
+    char c;
+    DecodeNode* left;
+    DecodeNode* right;
+
+    DecodeNode();
+    DecodeNode(char c);
+    bool isLeaf() {
+        return !(left || right);
+    }
+};
 
 
 /**
@@ -60,9 +57,12 @@ public:
 struct MetaNode {
     char c;
     bool isNull;
+    MetaNode();
     MetaNode(char c, bool isNull);
+    
 
     bool operator==(const MetaNode &other);
+
 };
 
 
@@ -76,13 +76,15 @@ struct MetaNode {
     Serialized Tree Nodes(Struct)
     Data
 */
-struct MetadataHead {
+class MetadataHead {
+public:
     unsigned short num_node = 0;
     unsigned short num_metanode = 0;
-    unsigned char offset = 0;               // number of bit offset at the end of the encoded file
-    MetadataHead(unsigned short num_node, unsigned short num_metanode, unsigned char offset);
+    unsigned short offset = 0;               // number of bit offset at the end of the encoded file
+    MetadataHead();
+    MetadataHead(unsigned short num_node, unsigned short num_metanode, unsigned short offset);
 };
-
+std::ostream& operator<<(std::ostream& stream, const MetadataHead& a);
 
 /**
     to store in metadata as lookup table

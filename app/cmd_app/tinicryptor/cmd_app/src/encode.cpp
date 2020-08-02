@@ -12,9 +12,6 @@
 using namespace std;
 
 
-
-
-
 void encode_main(argparse::ArgumentParser parser) {
     if (!parser.present("--input")) {
         cout << "no input file" << endl;
@@ -25,7 +22,7 @@ void encode_main(argparse::ArgumentParser parser) {
     } else {
         string input_filename = parser.get<string>("--input");
         std::ifstream fin(input_filename, ios::ate | ios::binary);
-        int filesize = fin.tellg();
+        long long filesize = fin.tellg();
         cout << "file size: " << filesize << " bytes" << endl;
         fin.seekg(0, fin.beg);
         map<char, int> m;
@@ -67,17 +64,9 @@ void encode_main(argparse::ArgumentParser parser) {
         unsigned short num_metanode = lookup_table.size() * 2 + total_num_node;
         cout << "num_metanode: " << num_metanode << endl;
         ofstream fout(parser.get<string>("--output"), ios::binary | ios::out);
-        /* fout.write((char*)&total_num_node, sizeof(unsigned short));
-         fout.write((char*) &num_metanode, sizeof(unsigned short));*/
-
-        unsigned char offset = 8 - root->offset;
+        unsigned short offset = 8 - root->offset;
         cout << "offset: " << (unsigned short) offset << endl;
-        //fout.write((char*) &offset, sizeof(unsigned char));
-        
-
         cout << "MetaNode Size: " << sizeof(MetaNode) << endl;
-
-
         cout << "MetadataHead Size: " << sizeof(MetadataHead) << endl;
         MetadataHead metadata_head(total_num_node, num_metanode, offset);
         fout.write(reinterpret_cast<char *>(&metadata_head), sizeof(MetadataHead));      // save metadata head

@@ -26,8 +26,29 @@ bool EncodeNode::isLeaf() {
 }
 // =====================================================================================
 
+// class body of DecodeNode ============================================================
+DecodeNode::DecodeNode() {
+    this->c = '\0';
+    this->left = NULL;
+    this->right = NULL;
+}
+
+DecodeNode::DecodeNode(char c) {
+    this->c = c;
+    this->left = NULL;
+    this->right = NULL;
+}
+
+
+// =====================================================================================
+
 
 // class body of MetaNode ==============================================================
+MetaNode::MetaNode() {
+    this->c = '\0';
+    this->isNull = true;
+}
+
 MetaNode::MetaNode(char c, bool isNull) {
     this->c = c;
     this->isNull = isNull;
@@ -40,10 +61,21 @@ bool MetaNode::operator==(const MetaNode &other) {
 
 
 // class body of MetadataHead ==========================================================
-MetadataHead::MetadataHead(unsigned short num_node, unsigned short num_metanode, unsigned char offset) {
+MetadataHead::MetadataHead(unsigned short num_node, unsigned short num_metanode, unsigned short offset) {
     this->num_node = num_node;
     this->num_metanode = num_metanode;
     this->offset = offset;
+}
+MetadataHead::MetadataHead() {
+    this->num_node = 0;
+    this->num_metanode = 0;
+    this->offset = 0;
+}
+
+
+std::ostream& operator<<(std::ostream& stream, const MetadataHead& a) {
+    stream << "num_node: " << a.num_node << ", num_metanode: " << a.num_metanode << ", offset: " << a.offset;
+    return stream;
 }
 // =====================================================================================
 
@@ -117,7 +149,7 @@ unsigned short max_num_byte_needed(EncodeNode *node) {
 
 void writeMetaNodes(EncodeNode *node, ofstream *fout) {
     // write current node to file
-    char c = node == NULL ? '\0' : (node->value).c_str()[0];
+    char c = node == NULL ? '\0' : !node->isLeaf() ? '\0' : (node->value).c_str()[0];
     bool isNull = node == NULL ? true : false;
     MetaNode metanode(c, isNull);
     fout->write((char *)(&metanode), sizeof(MetaNode));

@@ -9,7 +9,11 @@
 #include "decode.hpp"
 
 // encode arguments
-// - m encode - i in.txt - o out.txt
+// -m encode -i in.txt -o out.txt
+
+// decode arguments
+// -m decode -i out.txt -o decoded.txt
+
 
 using namespace std;
 
