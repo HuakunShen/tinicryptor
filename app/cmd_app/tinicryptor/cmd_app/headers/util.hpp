@@ -2,6 +2,8 @@
 
 #include <argparse/argparse.hpp>
 #include <string>
+#include <sys/stat.h>
+
 #define ALL_MODES "1. encode\n" \
                   "2. decode\n" \
                   "3. encrypt\n" \
