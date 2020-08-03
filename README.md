@@ -5,8 +5,8 @@ File Compression and Encryption Tool.
 
 [linux](./linux/tinicryptor)
 
-[win64](./x64/tinicryptor.exe)
+[win64](./release/x64/tinicryptor.exe)
 
-[win32](./x86/tinicryptor.exe)
+[win32](./release/x86/tinicryptor.exe)
 
-[mac](./mac/tinicryptor)
+[mac](./release/mac/tinicryptor)
