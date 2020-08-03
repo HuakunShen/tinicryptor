@@ -12,6 +12,18 @@
 using namespace std;
 
 
+void writeMetaNodes(EncodeNode* node, ofstream* fout) {
+    // write current node to file
+    char c = node == NULL ? '\0' : !node->isLeaf() ? '\0' : (node->value).c_str()[0];
+    bool isNull = node == NULL ? true : false;
+    MetaNode metanode(c, isNull);
+    fout->write((char*)(&metanode), sizeof(MetaNode));
+    if (node) {
+        writeMetaNodes(node->left, fout);
+        writeMetaNodes(node->right, fout);
+    }
+}
+
 void encode_main(argparse::ArgumentParser parser) {
     if (!parser.present("--input")) {
         cout << "no input file" << endl;
@@ -21,6 +33,10 @@ void encode_main(argparse::ArgumentParser parser) {
         exit(1);
     } else {
         string input_filename = parser.get<string>("--input");
+        if (!file_exists(input_filename)) {
+            cout << endl << "Input File Does Not Exist, filename: " << input_filename << endl << endl;
+            exit(1);
+        }
         std::ifstream fin(input_filename, ios::ate | ios::binary);
         long long filesize = fin.tellg();
         cout << "file size: " << filesize << " bytes" << endl;
@@ -103,6 +119,5 @@ void encode_main(argparse::ArgumentParser parser) {
 
         free_encode_tree(root);
         cout << "write finished" << endl;
-
     }
 }

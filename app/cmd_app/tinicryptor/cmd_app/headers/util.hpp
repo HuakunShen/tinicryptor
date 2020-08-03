@@ -1,7 +1,7 @@
 #pragma once
 
 #include <argparse/argparse.hpp>
-
+#include <string>
 #define ALL_MODES "1. encode\n" \
                   "2. decode\n" \
                   "3. encrypt\n" \
@@ -35,3 +35,6 @@ enum mode_choices {
     @param mode: --mode argument
 */
 mode_choices mode_switch_hash(std::string mode);
+
+
+bool file_exists(const std::string filename);

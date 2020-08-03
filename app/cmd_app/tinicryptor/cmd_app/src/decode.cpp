@@ -5,22 +5,27 @@
 
 #include "decode.hpp"
 #include "huffman.hpp"
+#include "util.hpp"
 
 using namespace std;
 
 DecodeNode* cur_state;
 
+/**
+	This function depends on cur_state which is a global var in this file.
+	So this function is only used in this file.
+	Change state of the cur_state global var based on the binary signal
+	@param signal: binary signal to pass to Decode Huffman Tree for changing state
+*/
 void change_state(bool signal) {
-	if (signal) {
+	if (signal)
 		cur_state = cur_state->right;
-	}
-	else {
+	else
 		cur_state = cur_state->left;
-	}
 }
 
 DecodeNode* construct_decode_tree(ifstream& fin, unsigned short& metanode_left) {
-	if (metanode_left == 0) cout << "error: construct_decode_tree(), metanode_left should never be 0" << endl;
+	//if (metanode_left == 0) cout << "error: construct_decode_tree(), metanode_left should never be 0" << endl;
 	MetaNode metanode;
 	fin.read((char*)&metanode, sizeof(MetaNode));
 	if (metanode.isNull) {
@@ -45,6 +50,10 @@ void decode_main(argparse::ArgumentParser parser) {
 	}
 	else {
 		string input_filename = parser.get<string>("--input");
+		if (!file_exists(input_filename)) {
+			cout << endl << "Input File Does Not Exist, filename: " << input_filename << endl << endl;
+			exit(1);
+		}
 		string output_filename = parser.get<string>("--output");
 		std::ifstream fin(input_filename, ios::ate | ios::binary);
 		long long filesize = fin.tellg();

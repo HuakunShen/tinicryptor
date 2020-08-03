@@ -1,6 +1,6 @@
 #include <argparse/argparse.hpp>
 #include "util.hpp"
-
+#include <string>
 
 mode_choices mode_switch_hash(std::string mode) {
 	if (mode == "encode") return MODE_ENCODE;
@@ -32,3 +32,7 @@ void parse_arguments(argparse::ArgumentParser& parser, int argc, const char** ar
 	}
 }
 
+bool file_exists(const std::string filename) {
+	struct stat buffer;
+	return (stat(filename.c_str(), &buffer) == 0);
+}

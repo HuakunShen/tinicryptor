@@ -137,31 +137,7 @@ int getNumNode(EncodeNode *node) {
 }
 
 
-unsigned short max_num_byte_needed(EncodeNode *node) {
-    if (node->isLeaf()) {
-        return ceil((node->code).length() / 8.0);
-    }
-    unsigned short left_num_byte = huffman_code_max_length_byte;
-    unsigned short right_num_byte = huffman_code_max_length_byte;
-    if (node->left) {
-        left_num_byte = max_num_byte_needed(node->left);
-    }
-    if (node->right) {
-        right_num_byte = max_num_byte_needed(node->right);
-    }
-    unsigned short ret = std::min(left_num_byte, right_num_byte);
-    return ret;
-}
 
 
-void writeMetaNodes(EncodeNode *node, ofstream *fout) {
-    // write current node to file
-    char c = node == NULL ? '\0' : !node->isLeaf() ? '\0' : (node->value).c_str()[0];
-    bool isNull = node == NULL ? true : false;
-    MetaNode metanode(c, isNull);
-    fout->write((char *)(&metanode), sizeof(MetaNode));
-    if (node) {
-        writeMetaNodes(node->left, fout);
-        writeMetaNodes(node->right, fout);
-    }
-}
+
+

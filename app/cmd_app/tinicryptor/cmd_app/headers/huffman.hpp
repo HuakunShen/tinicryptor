@@ -131,24 +131,3 @@ void generate_huffman_table(std::map<char, std::string> &m, EncodeNode *node, st
     @return integer, number of nodes in the tree
 */
 int getNumNode(EncodeNode *node);
-
-
-/**
-    Given the root node of a EncodeNode tree, traverse through the tree and
-    calculate the maximum number of byte needed to store the code (binary code)
-    @param node: EncodeNode (root node)
-    @return unsigned short max number of byte that's needed to store code
-*/
-unsigned short max_num_byte_needed(EncodeNode *node);
-
-
-/**
-    Write a nodes to file, not writing a struct
-    Format:
-    1 byte: char in ascci
-    1 byte: indicate wether this node exists
-    @param node: root EncodeNode node
-    @param fout: out file stream pointer
-    @param max_num_byte: max number of byte required to store code
-*/
-void writeMetaNodes(EncodeNode *node, std::ofstream *fout);
