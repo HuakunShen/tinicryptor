@@ -82,10 +82,17 @@ std::ostream& operator<<(std::ostream& stream, const MetadataHead& a) {
 
 
 
-void free_nodes(EncodeNode *node) {
+void free_encode_tree(EncodeNode *node) {
     if (!node) return;
-    free_nodes(node->left);
-    free_nodes(node->right);
+    free_encode_tree(node->left);
+    free_encode_tree(node->right);
+    delete node;
+}
+
+void free_decode_tree(DecodeNode* node) {
+    if (!node) return;
+    free_decode_tree(node->left);
+    free_decode_tree(node->right);
     delete node;
 }
 

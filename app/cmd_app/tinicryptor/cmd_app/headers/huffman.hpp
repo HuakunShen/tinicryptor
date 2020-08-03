@@ -107,9 +107,15 @@ struct heapCmp {
 
 /**
     free space of Nodes on heap
-    @param node: Huffman Tree Node
+    @param node: Huffman Tree EncodeNode
 */
-void free_nodes(EncodeNode *node);
+void free_encode_tree(EncodeNode *node);
+
+/**
+    free space of Nodes on heap
+    @param node: Huffman Tree DecodeNode
+*/
+void free_decode_tree(DecodeNode* node);
 
 /**
     generate huffman lookup table (metadata)

@@ -101,7 +101,8 @@ void encode_main(argparse::ArgumentParser parser) {
         fin.close();
         fout.close();
 
-        free_nodes(root);
+        free_encode_tree(root);
+        cout << "write finished" << endl;
 
     }
 }
