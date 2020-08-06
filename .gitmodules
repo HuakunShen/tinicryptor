@@ -1,0 +1,3 @@
+[submodule "HuffmanCoding"]
+	path = HuffmanCoding
+	url = https://github.com/HuakunShen/HuffmanCoding.git
